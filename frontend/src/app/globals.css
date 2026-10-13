@@ -41,40 +41,40 @@
   }
 
   .dark {
-    /* Stitch Design Tokens - Gamified Vibrant Dark Mode */
-    --background: #0c121e;
-    --on-background: #ecf1ff;
-    --surface: #111c2d;
-    --surface-dim: #0a0f18;
-    --surface-bright: #1b263b;
-    --surface-container-lowest: #141f33;
-    --surface-container-low: #18253d;
-    --surface-container: #1e2c47;
-    --surface-container-high: #243554;
-    --surface-container-highest: #2d4063;
-    --on-surface: #ecf1ff;
-    --on-surface-variant: #a9a3b8;
-    --inverse-surface: #f9f9ff;
-    --inverse-on-surface: #111c2d;
-    --outline: #938d9e;
-    --outline-variant: #494454;
-    --primary: #9b6cff;
-    --on-primary: #1e004b;
-    --primary-container: #6b38d4;
-    --on-primary-container: #f4ecff;
-    --primary-fixed: #3d1b8c;
-    --primary-fixed-dim: #5427b5;
-    --secondary: #36d399;
-    --on-secondary: #003822;
-    --secondary-container: #005236;
-    --on-secondary-container: #85ffd1;
-    --tertiary: #f43f8e;
-    --on-tertiary: #490026;
-    --tertiary-container: #8c0053;
-    --on-tertiary-container: #ffd9e4;
-    --error: #ffb4ab;
-    --on-error: #690005;
-    --error-container: #93000a;
+    /* Sleek Obsidian & Purple/Emerald Gamified Dark Palette */
+    --background: #090d16;
+    --on-background: #f1f5f9;
+    --surface: #0f172a;
+    --surface-dim: #090d16;
+    --surface-bright: #1e293b;
+    --surface-container-lowest: #0b1120;
+    --surface-container-low: #111a2e;
+    --surface-container: #17223b;
+    --surface-container-high: #1e2c4a;
+    --surface-container-highest: #28395e;
+    --on-surface: #f8fafc;
+    --on-surface-variant: #94a3b8;
+    --inverse-surface: #f8fafc;
+    --inverse-on-surface: #0f172a;
+    --outline: #64748b;
+    --outline-variant: #334155;
+    --primary: #a855f7;
+    --on-primary: #ffffff;
+    --primary-container: #9333ea;
+    --on-primary-container: #faf5ff;
+    --primary-fixed: #3b0764;
+    --primary-fixed-dim: #581c87;
+    --secondary: #10b981;
+    --on-secondary: #ffffff;
+    --secondary-container: #047857;
+    --on-secondary-container: #ecfdf5;
+    --tertiary: #ec4899;
+    --on-tertiary: #ffffff;
+    --tertiary-container: #be185d;
+    --on-tertiary-container: #fdf2f8;
+    --error: #f87171;
+    --on-error: #450a0a;
+    --error-container: #7f1d1d;
   }
 
   body {
