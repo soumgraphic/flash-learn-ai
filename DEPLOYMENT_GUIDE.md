@@ -133,6 +133,9 @@ gcloud sql instances list
 Note your **INSTANCE_NAME** and its full connection name (e.g., `PROJECT_ID:REGION:INSTANCE_NAME`).
 
 ### B. Set the Database Password for `postgres`
+
+Replace "YourSuperSecurePassword123!" with your actual database password.
+
 ```bash
 export INSTANCE_NAME="YOUR_INSTANCE_NAME"
 export DB_PASSWORD="YourSuperSecurePassword123!"
