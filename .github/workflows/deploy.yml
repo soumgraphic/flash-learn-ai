@@ -47,14 +47,21 @@ jobs:
       - name: Deploy Backend to Google Cloud Run
         id: deploy-backend
         run: |
-          IMAGE_TAG="${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/flashlearn-repo/${{ env.SERVICE_BACKEND }}:${{ github.sha }}"
+          # Build optional Cloud SQL instance flag if provided via secret
+          CLOUDSQL_FLAG=""
+          if [ -n "${{ secrets.CLOUDSQL_INSTANCE }}" ]; then
+            CLOUDSQL_FLAG="--add-cloudsql-instances=${{ secrets.CLOUDSQL_INSTANCE }}"
+          fi
+
           gcloud run deploy ${{ env.SERVICE_BACKEND }} \
             --image "$IMAGE_TAG" \
             --region ${{ env.GAR_LOCATION }} \
             --platform managed \
             --allow-unauthenticated \
+            $CLOUDSQL_FLAG \
             --set-env-vars ENVIRONMENT=production,ALGORITHM=HS256 \
             --set-secrets SECRET_KEY=FLASHLEARN_SECRET_KEY:latest,DATABASE_URL=FLASHLEARN_DATABASE_URL:latest,GEMINI_API_KEY=FLASHLEARN_GEMINI_KEY:latest
+
 
           # Retrieve deployed Backend URL
           BACKEND_URL=$(gcloud run services describe ${{ env.SERVICE_BACKEND }} --platform managed --region ${{ env.GAR_LOCATION }} --format 'value(status.url)')
