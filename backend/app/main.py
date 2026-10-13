@@ -48,6 +48,12 @@ async def lifespan(app: FastAPI):
     logger.info("Shutting down FlashLearn AI backend.")
 
 
+from fastapi.openapi.docs import (
+    get_redoc_html,
+    get_swagger_ui_html,
+    get_swagger_ui_oauth2_redirect_html,
+)
+
 # Initialize FastAPI application
 # Security Best Practice: Disable Swagger & OpenAPI exploration in production
 is_development = settings.ENVIRONMENT == "development"
@@ -56,11 +62,37 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
     description="Educational AI platform: Extracts key concepts, flashcards, and gamified quizzes from lecture notes.",
     version="1.0.0",
-    docs_url="/docs" if is_development else None,
-    redoc_url="/redoc" if is_development else None,
+    docs_url=None,  # Handled by custom route below for maximum CDN reliability
+    redoc_url=None,
     openapi_url="/openapi.json" if is_development else None,
     lifespan=lifespan,
 )
+
+if is_development:
+    @app.get("/docs", include_in_schema=False)
+    async def custom_swagger_ui_html():
+        """Custom Swagger UI route using high-availability CDN bundle with dark/modern styling."""
+        return get_swagger_ui_html(
+            openapi_url=app.openapi_url or "/openapi.json",
+            title=f"{settings.PROJECT_NAME} - Interactive API Docs",
+            oauth2_redirect_url=app.swagger_ui_oauth2_redirect_url,
+            swagger_js_url="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js",
+            swagger_css_url="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css",
+        )
+
+    @app.get(app.swagger_ui_oauth2_redirect_url, include_in_schema=False)
+    async def swagger_ui_redirect():
+        return get_swagger_ui_oauth2_redirect_html()
+
+    @app.get("/redoc", include_in_schema=False)
+    async def custom_redoc_html():
+        """Custom ReDoc route using unpkg standalone bundle."""
+        return get_redoc_html(
+            openapi_url=app.openapi_url or "/openapi.json",
+            title=f"{settings.PROJECT_NAME} - ReDoc Specification",
+            redoc_js_url="https://unpkg.com/redoc@2/bundles/redoc.standalone.js",
+        )
+
 
 # Configure Rate Limiter
 app.state.limiter = limiter
