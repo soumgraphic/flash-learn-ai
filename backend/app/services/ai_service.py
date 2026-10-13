@@ -89,10 +89,25 @@ class GeminiAIService:
 
         prompt = f"{SYSTEM_PROMPT}\n\nHere are the student's lecture notes:\n\n{lecture_text}"
 
+        # Configuration: Request structured JSON with LOW thinking budget (fast reasoning)
+        gen_config: dict[str, Any] = {
+            "response_mime_type": "application/json",
+        }
+
+        # Apply low thinking budget if configured (e.g. 1024 tokens for low reasoning latency)
+        if hasattr(settings, "GEMINI_THINKING_BUDGET") and settings.GEMINI_THINKING_BUDGET > 0:
+            gen_config["thinking_config"] = {"thinking_budget": settings.GEMINI_THINKING_BUDGET}
+
         try:
-            response = self.model.generate_content(
-                prompt, generation_config={"response_mime_type": "application/json"}
-            )
+            try:
+                response = self.model.generate_content(prompt, generation_config=gen_config)
+            except Exception as model_err:
+                # If the specific model or SDK version doesn't accept thinking_config, retry with standard JSON output
+                logger.warning(f"Thinking config attempt encountered: {model_err}. Falling back to standard JSON generation.")
+                response = self.model.generate_content(
+                    prompt, generation_config={"response_mime_type": "application/json"}
+                )
+
             raw_text = response.text.strip()
             # Clean possible markdown wrapping if returned
             raw_text = raw_text.removeprefix("```json")

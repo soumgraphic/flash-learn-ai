@@ -48,7 +48,8 @@ class Settings(BaseSettings):
 
     # Gemini AI Configuration
     GEMINI_API_KEY: str = ""
-    GEMINI_MODEL: str = "gemini-1.5-flash"
+    GEMINI_MODEL: str = "gemini-2.5-flash"  # Supports thinking/reasoning modes
+    GEMINI_THINKING_BUDGET: int = 1024       # Low thinking mode (fast, low-latency reasoning)
 
     # Rate Limiting
     RATE_LIMIT_LOGIN: str = "5/minute"
