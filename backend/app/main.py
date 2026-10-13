@@ -45,13 +45,14 @@ logger = logging.getLogger("flashlearn.api")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan context: initialize database tables on startup.
-    
+
     Resilience Best Practice:
     Database initialization is wrapped in a try/except block so that slow database
     cold starts or transient network latency never prevent Uvicorn from binding
     to the container PORT in Cloud Run.
     """
     logger.info("Initializing database tables...")
+
     try:
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
