@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_standard" name="shell-type" />
+    <title>FlashLearn</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        @layer base {
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                overscroll-behavior: none;
+            }
+
+            main>:first-child {
+                margin-top: 0 !important;
+            }
+
+            main>:last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+        id="tailwind-config">tailwind.config = { "darkMode": "class", "theme": { "extend": { "colors": { "primary": "#6b38d4", "secondary-container": "#6cf8bb", "tertiary-container": "#d23284", "primary-fixed-dim": "#d0bcff", "on-primary-fixed": "#23005c", "inverse-primary": "#d0bcff", "background": "#f9f9ff", "on-primary-fixed-variant": "#5516be", "surface": "#f9f9ff", "on-primary": "#ffffff", "surface-container-lowest": "#ffffff", "surface-container-low": "#f0f3ff", "tertiary-fixed": "#ffd9e4", "surface-bright": "#f9f9ff", "error-container": "#ffdad6", "on-error-container": "#93000a", "on-surface-variant": "#494454", "outline": "#7b7486", "surface-container-highest": "#d8e3fb", "on-tertiary-fixed-variant": "#8c0053", "primary-fixed": "#e9ddff", "on-tertiary": "#ffffff", "on-secondary-fixed": "#002113", "surface-container-high": "#dee8ff", "on-primary-container": "#fffbff", "secondary-fixed": "#6ffbbe", "secondary-fixed-dim": "#4edea3", "secondary": "#006c49", "tertiary": "#b10e6b", "surface-variant": "#d8e3fb", "on-surface": "#111c2d", "on-background": "#111c2d", "inverse-surface": "#263143", "outline-variant": "#cbc3d7", "inverse-on-surface": "#ecf1ff", "primary-container": "#8455ef", "error": "#ba1a1a", "on-secondary-fixed-variant": "#005236", "on-tertiary-fixed": "#3e0022", "surface-container": "#e7eeff", "on-secondary-container": "#00714d", "on-secondary": "#ffffff", "on-error": "#ffffff", "surface-tint": "#6d3bd7", "surface-dim": "#cfdaf2", "on-tertiary-container": "#fffbff", "tertiary-fixed-dim": "#ffb0cd" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "3rem", "space-md": "1.25rem", "margin": "1rem", "gutter-lg": "2rem", "space-xs": "0.375rem", "gutter": "1.25rem", "space-lg": "2rem", "space-sm": "0.75rem", "margin-md": "2rem", "margin-lg": "3.5rem" }, "fontFamily": { "headline-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "body-sm": ["Inter"], "label-md": ["Plus Jakarta Sans"], "body-md": ["Inter"], "headline-xl-mobile": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "body-lg": ["Inter"], "label-sm": ["Plus Jakarta Sans"] }, "fontSize": { "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "700" }], "headline-xl": ["40px", { "lineHeight": "48px", "fontWeight": "800" }], "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }], "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "label-md": ["14px", { "lineHeight": "18px", "fontWeight": "600" }], "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-xl-mobile": ["30px", { "lineHeight": "36px", "fontWeight": "800" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }], "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }] } } } };</script>
+</head>
+
+<body class="bg-background font-body-md text-on-surface min-h-screen">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+        <div class="h-16 max-w-5xl mx-auto px-margin md:px-margin-md flex items-center justify-between gap-4">
+            <div class="flex items-center gap-6"><a class="flex items-center gap-1.5 text-primary select-none"
+                    data-path="accueil" href="#"><span
+                        class="text-headline-sm font-headline-sm tracking-tight text-primary font-bold">⚡
+                        FlashLearn</span></a>
+                <nav class="hidden md:flex items-center gap-1"
+                    data-active-classes="bg-primary-container text-on-primary-container font-headline-sm rounded-xl"><a
+                        class="px-3 py-1.5 rounded-xl font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all"
+                        data-path="accueil" href="#">Accueil</a><a
+                        class="px-3 py-1.5 rounded-xl font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all"
+                        data-path="cours-et-notions" href="#">Cours &amp; Notions</a><a
+                        class="px-3 py-1.5 rounded-xl font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all"
+                        data-path="flashcards" href="#">Flashcards</a><a
+                        class="px-3 py-1.5 rounded-xl font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all"
+                        data-path="quiz" href="#">Quiz</a><a aria-current="page"
+                        class="px-3 py-1.5 transition-all bg-primary-container text-on-primary-container font-headline-sm rounded-xl"
+                        data-path="profil" href="#">Profil</a></nav>
+            </div>
+            <div class="flex items-center gap-3">
+                <div
+                    class="flex items-center gap-2 bg-surface-container-low px-3 py-1 rounded-full text-on-surface text-label-sm font-label-sm shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+                    <span class="flex items-center gap-1 text-on-surface"><span>🔥</span><span>3j</span></span><span
+                        class="text-outline-variant font-normal">•</span><span
+                        class="flex items-center gap-1 text-on-surface"><span>⭐</span><span>120 pts</span></span></div>
+                <a class="transition-transform active:scale-95" data-path="profil" href="#">
+                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span
+                            class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+                </a>
+            </div>
+        </div>
+    </header>
+    <main class="w-full pt-16 bg-background">
+        <div class="max-w-5xl mx-auto px-margin md:px-margin-md py-space-lg">
+            <div class="flex flex-col w-full">
+                <div class="max-w-3xl mx-auto w-full flex flex-col gap-space-lg">
+                    <!-- 1. Header du Profil -->
+                    <section
+                        class="bg-surface-container-lowest rounded-xl p-space-md md:p-space-lg shadow-sm relative overflow-hidden">
+                        <div
+                            class="absolute -right-12 -top-12 w-48 h-48 bg-primary-fixed/30 rounded-full blur-2xl pointer-events-none">
+                        </div>
+                        <div
+                            class="absolute right-24 top-20 w-32 h-32 bg-secondary-container/20 rounded-full blur-xl pointer-events-none">
+                        </div>
+                        <div
+                            class="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-space-md relative z-10">
+                            <div
+                                class="flex flex-col sm:flex-row items-center sm:items-start gap-space-md text-center sm:text-left">
+                                <!-- Avatar + Badge Niveau -->
+                                <div class="relative">
+                                    <div
+                                        class="w-24 h-24 rounded-full bg-gradient-to-tr from-primary-fixed to-surface-container-high p-1 shadow-sm">
+                                        <img class="w-full h-full object-cover rounded-full bg-surface-container-low"
+                                            data-alt="A friendly and cheerful high school student avatar smiling warmly, minimalist 3D claymation style with soft pastel lighting, violet hoodie, clean studio background with soft warm ambient shadows matching FlashLearn palette."
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiy88rzel9KNe2wOxi2WNPoZ7wDjovYr4UDJ05uAHqqGIlIkWiCV9N5_Hj_ZOS2gEUq8SDJ3fs85-MFVBcZCo8z1vb-oMChOtyu14zbMQNztTZuD-jzYu_nXlJUaJbFOSu3gr1Pj4PZi05HlTo4zh1s50D8JS6bob1VR0UHK0iRG_uYLYb-7DZSMTm1BWICVzANCZ_3H6vg3hhgkxKNu-wVz8mIuOZBr_JmHDdDQZ50mgnE_HuakZvDw" />
+                                    </div>
+                                    <span
+                                        class="absolute -bottom-1 -right-1 bg-primary text-on-primary w-7 h-7 rounded-full flex items-center justify-center font-label-sm text-label-sm shadow-sm"
+                                        title="Niveau 3">
+                                        ⚡3
+                                    </span>
+                                </div>
+                                <!-- Identité & Rangs -->
+                                <div class="flex flex-col items-center sm:items-start justify-center">
+                                    <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1">
+                                        <h1 class="font-headline-md text-headline-md text-on-surface">Camille Dupont
+                                        </h1>
+                                        <span
+                                            class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">
+                                            <span>⚡</span>
+                                            <span>Niveau 3</span>
+                                            <span class="opacity-60">•</span>
+                                            <span>Explorateur Curieux</span>
+                                        </span>
+                                    </div>
+                                    <p
+                                        class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5 mb-3">
+                                        <span class="material-symbols-outlined text-[16px]">mail</span>
+                                        camille@lycee.fr
+                                    </p>
+                                    <div class="flex items-center gap-2">
+                                        <span
+                                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+                                            <span class="material-symbols-outlined text-[14px]">school</span>
+                                            Lycée général (1ère)
+                                        </span>
+                                        <span
+                                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container/30 text-on-secondary-container font-label-sm text-label-sm">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                            Membre actif
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bouton Édition -->
+                            <button
+                                class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-container-low text-on-surface font-label-md text-label-md hover:bg-surface-container transition-all active:scale-95 shadow-sm"
+                                id="btn-edit-profile">
+                                <span class="material-symbols-outlined text-[18px]">edit</span>
+                                <span>Modifier</span>
+                            </button>
+                        </div>
+                    </section>
+                    <!-- 2. Barre des 3 Statistiques Clés -->
+                    <section class="grid grid-cols-1 md:grid-cols-3 gap-space-sm md:gap-space-md">
+                        <!-- Stat 1: Flamme / Série -->
+                        <div
+                            class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden group">
+                            <div class="flex items-center justify-between mb-2">
+                                <span
+                                    class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">Série
+                                    actuelle</span>
+                                <div
+                                    class="w-9 h-9 rounded-xl bg-error-container/60 text-error flex items-center justify-center text-lg">
+                                    🔥
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex items-baseline gap-1.5">
+                                    <span class="font-headline-lg text-headline-lg text-on-surface">3</span>
+                                    <span class="font-body-md text-body-md text-on-surface-variant">jours</span>
+                                </div>
+                                <p
+                                    class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1">
+                                    <span
+                                        class="material-symbols-outlined text-secondary text-[16px]">trending_up</span>
+                                    Prochain palier : <strong>5 jours</strong>
+                                </p>
+                            </div>
+                            <div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-3">
+                                <div
+                                    class="bg-gradient-to-r from-tertiary-container to-tertiary h-full rounded-full w-[60%]">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Stat 2: XP -->
+                        <div
+                            class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden group">
+                            <div class="flex items-center justify-between mb-2">
+                                <span
+                                    class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">Expérience</span>
+                                <div
+                                    class="w-9 h-9 rounded-xl bg-primary-fixed text-primary flex items-center justify-center text-lg">
+                                    ⭐
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex items-baseline gap-1.5">
+                                    <span class="font-headline-lg text-headline-lg text-on-surface">120</span>
+                                    <span class="font-body-md text-body-md text-on-surface-variant">XP gagnés</span>
+                                </div>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                                    +30 XP lors du dernier quiz
+                                </p>
+                            </div>
+                            <div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-3">
+                                <div class="bg-primary h-full rounded-full w-[75%]"></div>
+                            </div>
+                        </div>
+                        <!-- Stat 3: Flashcards -->
+                        <div
+                            class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden group">
+                            <div class="flex items-center justify-between mb-2">
+                                <span
+                                    class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">Cartes
+                                    maîtrisées</span>
+                                <div
+                                    class="w-9 h-9 rounded-xl bg-secondary-container/50 text-secondary flex items-center justify-center text-lg">
+                                    🃏
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex items-baseline gap-1.5">
+                                    <span class="font-headline-lg text-headline-lg text-on-surface">24</span>
+                                    <span class="font-body-md text-body-md text-on-surface-variant">/ 30 apprises</span>
+                                </div>
+                                <p class="font-body-sm text-body-sm text-secondary mt-1 font-medium">
+                                    80% du paquet validé
+                                </p>
+                            </div>
+                            <div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-3">
+                                <div class="bg-secondary h-full rounded-full w-[80%]"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- 3. Mes Cours & Fiches Récents -->
+                    <section class="flex flex-col gap-space-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="font-headline-sm text-headline-sm text-on-surface">Mes cours &amp; fiches
+                                    récents</h2>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">Reprenez vos sessions là où
+                                    vous vous êtes arrêté</p>
+                            </div>
+                            <button
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-all active:scale-95 shadow-sm"
+                                id="btn-add-course">
+                                <span class="material-symbols-outlined text-[18px]">add</span>
+                                <span>Nouveau cours</span>
+                            </button>
+                        </div>
+                        <div class="flex flex-col gap-space-sm mt-1">
+                            <!-- Carte 1 -->
+                            <article
+                                class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="flex items-start gap-3.5">
+                                    <div
+                                        class="w-12 h-12 rounded-xl bg-secondary-container/40 text-on-secondary-container flex items-center justify-center text-2xl flex-shrink-0">
+                                        🌱
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <div class="flex flex-wrap items-center gap-2 mb-1">
+                                            <h3 class="font-headline-sm text-headline-sm text-on-surface">Biologie
+                                                Végétale &amp; Photosynthèse</h3>
+                                            <span
+                                                class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+                                                100% au quiz
+                                            </span>
+                                        </div>
+                                        <div
+                                            class="flex flex-wrap items-center gap-3 font-body-sm text-body-sm text-on-surface-variant">
+                                            <span class="flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[16px]">menu_book</span>
+                                                3 notions
+                                            </span>
+                                            <span>•</span>
+                                            <span class="flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[16px]">style</span>
+                                                5 flashcards
+                                            </span>
+                                            <span>•</span>
+                                            <span class="text-secondary font-medium">Parfaitement maîtrisé</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-end">
+                                    <a class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-fixed text-on-primary-fixed font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-all active:scale-95"
+                                        data-path="flashcards" href="#">
+                                        <span>Réviser</span>
+                                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </article>
+                            <!-- Carte 2 -->
+                            <article
+                                class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="flex items-start gap-3.5">
+                                    <div
+                                        class="w-12 h-12 rounded-xl bg-primary-fixed/40 text-primary flex items-center justify-center text-2xl flex-shrink-0">
+                                        ⚡
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <div class="flex flex-wrap items-center gap-2 mb-1">
+                                            <h3 class="font-headline-sm text-headline-sm text-on-surface">Physique :
+                                                Lois fondamentales de l'électricité</h3>
+                                            <span
+                                                class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm">
+                                                Quiz 80%
+                                            </span>
+                                        </div>
+                                        <div
+                                            class="flex flex-wrap items-center gap-3 font-body-sm text-body-sm text-on-surface-variant">
+                                            <span class="flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[16px]">menu_book</span>
+                                                3 notions
+                                            </span>
+                                            <span>•</span>
+                                            <span class="flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[16px]">style</span>
+                                                6 flashcards
+                                            </span>
+                                            <span>•</span>
+                                            <span>À consolider</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-end">
+                                    <a class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-fixed text-on-primary-fixed font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-all active:scale-95"
+                                        data-path="flashcards" href="#">
+                                        <span>Réviser</span>
+                                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </article>
+                            <!-- Carte 3 -->
+                            <article
+                                class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="flex items-start gap-3.5">
+                                    <div
+                                        class="w-12 h-12 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed-variant flex items-center justify-center text-2xl flex-shrink-0">
+                                        🏰
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <div class="flex flex-wrap items-center gap-2 mb-1">
+                                            <h3 class="font-headline-sm text-headline-sm text-on-surface">Histoire : Les
+                                                étapes de la Révolution 1789</h3>
+                                            <span
+                                                class="inline-flex items-center px-2 py-0.5 rounded-full bg-tertiary-fixed-dim/40 text-tertiary font-label-sm text-label-sm">
+                                                En cours
+                                            </span>
+                                        </div>
+                                        <div
+                                            class="flex flex-wrap items-center gap-3 font-body-sm text-body-sm text-on-surface-variant">
+                                            <span class="flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[16px]">menu_book</span>
+                                                3 notions
+                                            </span>
+                                            <span>•</span>
+                                            <span class="flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[16px]">style</span>
+                                                4 flashcards
+                                            </span>
+                                            <span>•</span>
+                                            <span>Étape 2/3</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-end">
+                                    <a class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container-high text-on-surface font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-all active:scale-95"
+                                        data-path="cours-et-notions" href="#">
+                                        <span>Continuer</span>
+                                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+                    <!-- 4. Préférences Simples du Compte -->
+                    <section
+                        class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+                        <div>
+                            <h2 class="font-headline-sm text-headline-sm text-on-surface">Paramètres &amp; Préférences
+                            </h2>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant">Gérez vos rappels et adaptez
+                                votre expérience d'apprentissage</p>
+                        </div>
+                        <div class="flex flex-col divide-y-0 gap-space-sm">
+                            <!-- Option: Notifications de révision -->
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+                                        <span class="material-symbols-outlined text-[20px]">notifications_active</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-label-md text-label-md text-on-surface">Notifications
+                                            quotidiennes</div>
+                                        <div class="font-body-sm text-body-sm text-on-surface-variant">Un rappel court à
+                                            18h00 pour entretenir votre série</div>
+                                    </div>
+                                </div>
+                                <!-- Switch Interactif -->
+                                <button aria-checked="true"
+                                    class="w-12 h-7 rounded-full bg-primary p-1 flex items-center transition-colors cursor-pointer select-none"
+                                    id="toggle-notifications" role="switch">
+                                    <div class="w-5 h-5 rounded-full bg-white shadow-sm transform translate-x-5 transition-transform"
+                                        id="switch-thumb"></div>
+                                </button>
+                            </div>
+                            <!-- Option: Niveau d'études -->
+                            <div
+                                class="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-xl bg-surface-container-low gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+                                        <span class="material-symbols-outlined text-[20px]">auto_stories</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-label-md text-label-md text-on-surface">Niveau d'études</div>
+                                        <div class="font-body-sm text-body-sm text-on-surface-variant">Ajuste la
+                                            difficulté des quiz et des synthèses</div>
+                                    </div>
+                                </div>
+                                <!-- Pilules Sélecteur -->
+                                <div class="flex items-center gap-1.5 self-start sm:self-auto" id="level-selector">
+                                    <button
+                                        class="level-btn px-3 py-1 rounded-full text-label-sm font-label-sm transition-all bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
+                                        data-level="college">
+                                        Collège
+                                    </button>
+                                    <button
+                                        class="level-btn px-3 py-1 rounded-full text-label-sm font-label-sm transition-all bg-primary text-on-primary shadow-sm"
+                                        data-level="lycee">
+                                        Lycée
+                                    </button>
+                                    <button
+                                        class="level-btn px-3 py-1 rounded-full text-label-sm font-label-sm transition-all bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
+                                        data-level="superieur">
+                                        Supérieur
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Zone Basse : Déconnexion -->
+                        <div class="pt-2 flex items-center justify-between">
+                            <span class="font-body-sm text-body-sm text-on-surface-variant">Version 1.4.2 • Mode
+                                connecté</span>
+                            <button
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-error hover:bg-error-container/40 font-label-md text-label-md transition-colors active:scale-95"
+                                id="btn-logout">
+                                <span class="material-symbols-outlined text-[18px]">logout</span>
+                                <span>Se déconnecter</span>
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <script>
+                // Micro-interaction : Toggle Notifications
+                const toggleBtn = document.getElementById('toggle-notifications');
+                const thumb = document.getElementById('switch-thumb');
+                let notificationsActive = true;
+
+                if (toggleBtn && thumb) {
+                    toggleBtn.addEventListener('click', () => {
+                        notificationsActive = !notificationsActive;
+                        toggleBtn.setAttribute('aria-checked', notificationsActive ? 'true' : 'false');
+                        if (notificationsActive) {
+                            toggleBtn.classList.remove('bg-outline-variant');
+                            toggleBtn.classList.add('bg-primary');
+                            thumb.classList.remove('translate-x-0');
+                            thumb.classList.add('translate-x-5');
+                        } else {
+                            toggleBtn.classList.remove('bg-primary');
+                            toggleBtn.classList.add('bg-outline-variant');
+                            thumb.classList.remove('translate-x-5');
+                            thumb.classList.add('translate-x-0');
+                        }
+                    });
+                }
+
+                // Micro-interaction : Sélecteur de niveau
+                const levelBtns = document.querySelectorAll('.level-btn');
+                levelBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        levelBtns.forEach(b => {
+                            b.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+                            b.classList.add('bg-surface-container', 'text-on-surface-variant');
+                        });
+                        btn.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+                        btn.classList.remove('bg-surface-container', 'text-on-surface-variant');
+                    });
+                });
+
+                // Action Modifier profil
+                const editBtn = document.getElementById('btn-edit-profile');
+                if (editBtn) {
+                    editBtn.addEventListener('click', () => {
+                        const originalText = editBtn.innerHTML;
+                        editBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span><span>Chargement...</span>';
+                        setTimeout(() => {
+                            editBtn.innerHTML = originalText;
+                        }, 700);
+                    });
+                }
+
+                // Action Nouveau Cours
+                const addCourseBtn = document.getElementById('btn-add-course');
+                if (addCourseBtn) {
+                    addCourseBtn.addEventListener('click', () => {
+                        alert("FlashLearn : Préparez un nouveau deck ou importez une notion !");
+                    });
+                }
+
+                // Action Déconnexion sobre
+                const logoutBtn = document.getElementById('btn-logout');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', () => {
+                        if (confirm('Voulez-vous vraiment vous déconnecter de FlashLearn ?')) {
+                            alert('Session fermée. À bientôt Camille !');
+                        }
+                    });
+                }
+            </script>
+        </div>
+    </main>
+    <footer class="w-full bg-surface-container-low py-space-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+        <div
+            class="max-w-5xl mx-auto px-margin md:px-margin-md flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+            <div class="flex items-center gap-2"><span class="font-label-sm text-label-sm text-primary font-bold">⚡
+                    FlashLearn</span><span class="text-on-surface-variant font-body-sm text-body-sm">— Micro-learning
+                    clair, rapide et stimulant</span></div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">© 2025 FlashLearn. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

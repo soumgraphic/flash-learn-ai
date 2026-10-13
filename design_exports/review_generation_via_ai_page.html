@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_standard" name="shell-type" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        @layer base {
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                overscroll-behavior: none;
+            }
+
+            main>:first-child {
+                margin-top: 0 !important;
+            }
+
+            main>:last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+        id="tailwind-config">tailwind.config = { "darkMode": "class", "theme": { "extend": { "colors": { "on-surface-variant": "#494454", "tertiary": "#b10e6b", "surface-variant": "#d8e3fb", "tertiary-fixed": "#ffd9e4", "surface-container-highest": "#d8e3fb", "secondary-container": "#6cf8bb", "on-surface": "#111c2d", "secondary": "#006c49", "inverse-primary": "#d0bcff", "surface-dim": "#cfdaf2", "outline-variant": "#cbc3d7", "inverse-surface": "#263143", "on-error": "#ffffff", "secondary-fixed-dim": "#4edea3", "on-error-container": "#93000a", "inverse-on-surface": "#ecf1ff", "on-secondary": "#ffffff", "error": "#ba1a1a", "surface-tint": "#6d3bd7", "on-primary-fixed": "#23005c", "primary-fixed-dim": "#d0bcff", "primary-container": "#8455ef", "on-tertiary-fixed": "#3e0022", "surface-container-low": "#f0f3ff", "on-tertiary": "#ffffff", "surface-bright": "#f9f9ff", "secondary-fixed": "#6ffbbe", "on-secondary-fixed": "#002113", "on-primary": "#ffffff", "surface": "#f9f9ff", "tertiary-fixed-dim": "#ffb0cd", "on-background": "#111c2d", "outline": "#7b7486", "on-primary-container": "#fffbff", "primary-fixed": "#e9ddff", "surface-container": "#e7eeff", "on-tertiary-fixed-variant": "#8c0053", "surface-container-lowest": "#ffffff", "on-primary-fixed-variant": "#5516be", "surface-container-high": "#dee8ff", "on-secondary-fixed-variant": "#005236", "on-secondary-container": "#00714d", "background": "#f9f9ff", "error-container": "#ffdad6", "primary": "#6b38d4", "tertiary-container": "#d23284", "on-tertiary-container": "#fffbff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin": "1rem", "gutter": "1.25rem", "space-xs": "0.375rem", "margin-lg": "3.5rem", "margin-md": "2rem", "gutter-lg": "2rem", "space-md": "1.25rem", "space-lg": "2rem", "space-sm": "0.75rem", "space-xl": "3rem" }, "fontFamily": { "headline-sm": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "body-sm": ["Inter"], "label-md": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "body-md": ["Inter"], "body-lg": ["Inter"] }, "fontSize": { "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-xl-mobile": ["30px", { "lineHeight": "36px", "fontWeight": "800" }], "headline-xl": ["40px", { "lineHeight": "48px", "fontWeight": "800" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }], "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }], "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "label-md": ["14px", { "lineHeight": "18px", "fontWeight": "600" }], "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }], "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "700" }], "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }] } } } };</script>
+</head>
+
+<body
+    class="bg-background font-body-md text-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between">
+    <header
+        class="fixed top-0 inset-x-0 z-50 bg-surface-container-lowest/95 backdrop-blur-md border-b border-outline-variant/40">
+        <div class="h-16 max-w-5xl mx-auto px-margin flex items-center justify-between gap-space-md">
+            <div class="flex items-center gap-space-sm"><span
+                    class="text-headline-sm font-headline-sm text-primary tracking-tight flex items-center gap-1.5"><span
+                        class="text-lg">⚡</span>FlashLearn</span><span
+                    class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">Micro-app</span>
+            </div>
+            <nav class="hidden md:flex items-center gap-1.5 p-1 bg-surface-container-low rounded-full"
+                data-active-classes="bg-primary-container text-on-primary-container font-headline-sm"><a
+                    aria-current="page"
+                    class="px-4 py-1.5 rounded-full transition-all bg-primary-container text-on-primary-container font-headline-sm"
+                    data-path="coller-un-cours" href="#">1. Coller un cours</a><a
+                    class="px-4 py-1.5 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all"
+                    data-path="flashcards" href="#">2. Flashcards</a><a
+                    class="px-4 py-1.5 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all"
+                    data-path="mini-quiz" href="#">3. Mini Quiz</a></nav>
+            <div class="flex items-center gap-space-sm">
+                <div
+                    class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low text-on-surface font-label-sm text-label-sm shadow-sm">
+                    <span class="text-sm">🔥</span><span>3j</span></div>
+                <div
+                    class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">
+                    <span class="text-sm">⭐</span><span>120 pts</span></div>
+                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span
+                        class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+            </div>
+        </div>
+    </header>
+    <main class="w-full max-w-5xl mx-auto px-margin pt-16 flex-1 py-space-lg">
+        <div class="flex flex-col w-full">
+            <div class="w-full max-w-2xl mx-auto flex flex-col items-center">
+                <!-- En-tête Chaleureux & Dynamique -->
+                <div class="text-center mb-space-lg">
+                    <div
+                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm mb-space-xs shadow-sm">
+                        <span class="material-symbols-outlined text-[16px]">auto_awesome</span>
+                        <span>Apprentissage instantané par IA</span>
+                    </div>
+                    <h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight mb-space-xs">
+                        Transforme ton cours en jeu ⚡
+                    </h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mx-auto">
+                        Colle un paragraphe de cours, l'IA s'occupe du reste.
+                    </p>
+                </div>
+                <!-- Zone de Saisie & Exemples -->
+                <div
+                    class="w-full bg-surface-container-lowest rounded-2xl shadow-sm p-space-md sm:p-space-lg flex flex-col gap-space-md">
+                    <div class="relative w-full">
+                        <textarea
+                            class="w-full bg-surface-container-low text-on-surface placeholder:text-outline font-body-md text-body-md rounded-2xl p-space-md outline-none transition-all duration-200 focus:bg-surface-container-lowest focus:shadow-md resize-none"
+                            id="course-input"
+                            placeholder="Colle ton texte de cours ici (ex: La mitose cellulaire, la Révolution française...)..."
+                            rows="5"></textarea>
+                        <div
+                            class="absolute bottom-3 right-3 text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1 bg-surface-container-lowest/80 px-2 py-1 rounded-full backdrop-blur-sm">
+                            <span id="char-count">0</span> mots
+                        </div>
+                    </div>
+                    <!-- Boutons d'exemples en 1 clic -->
+                    <div class="flex flex-wrap items-center gap-space-xs pt-1">
+                        <span class="font-label-sm text-label-sm text-on-surface-variant mr-1">Exemples rapides :</span>
+                        <button
+                            class="px-3 py-1.5 rounded-full bg-secondary-fixed/40 hover:bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm transition-all duration-150 hover:-translate-y-0.5"
+                            onclick="fillSample('photosynthese')" type="button">
+                            🌱 Photosynthèse
+                        </button>
+                        <button
+                            class="px-3 py-1.5 rounded-full bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-sm text-label-sm transition-all duration-150 hover:-translate-y-0.5"
+                            onclick="fillSample('loi-ohm')" type="button">
+                            ⚡ Loi d'Ohm
+                        </button>
+                        <button
+                            class="px-3 py-1.5 rounded-full bg-tertiary-fixed/60 hover:bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm transition-all duration-150 hover:-translate-y-0.5"
+                            onclick="fillSample('revolution')" type="button">
+                            🏰 Révolution 1789
+                        </button>
+                    </div>
+                    <!-- CTA Vibrant de Génération -->
+                    <button
+                        class="w-full py-3.5 px-space-md rounded-xl bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm tracking-wide shadow-md transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2"
+                        id="btn-generate" onclick="generateRevision()" type="button">
+                        <span>✨ Générer les révisions</span>
+                    </button>
+                </div>
+                <!-- Section Résultats : 3 Notions Clés -->
+                <div class="w-full mt-space-lg flex flex-col gap-space-md transition-all duration-300"
+                    id="results-section">
+                    <div class="flex items-center justify-between px-1">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+                            <h2 class="font-headline-md text-headline-md text-on-surface">Les 3 Notions Clés</h2>
+                        </div>
+                        <span
+                            class="font-label-sm text-label-sm text-secondary bg-secondary-fixed/30 px-2.5 py-1 rounded-full font-bold">
+                            Synthèse prête ✨
+                        </span>
+                    </div>
+                    <!-- Boîtes Notions Douces & Minimalistes -->
+                    <div class="grid grid-cols-1 gap-space-sm w-full">
+                        <!-- Notion 1 (Vert menthe doux) -->
+                        <div
+                            class="bg-secondary-fixed/25 rounded-xl p-space-md flex items-start gap-space-sm shadow-sm transition-all hover:bg-secondary-fixed/35">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed shrink-0">
+                                <span class="text-lg">💡</span>
+                            </div>
+                            <div class="flex flex-col min-w-0">
+                                <h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed-variant mb-1">
+                                    Phase lumineuse
+                                </h3>
+                                <p class="font-body-md text-body-md text-on-surface-variant">
+                                    Les pigments de chlorophylle captent directement les photons du soleil pour générer
+                                    de l'ATP indispensable.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Notion 2 (Bleu ciel feutré) -->
+                        <div
+                            class="bg-surface-variant/40 rounded-xl p-space-md flex items-start gap-space-sm shadow-sm transition-all hover:bg-surface-variant/60">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-surface-variant flex items-center justify-center text-on-surface shrink-0">
+                                <span class="text-lg">🔬</span>
+                            </div>
+                            <div class="flex flex-col min-w-0">
+                                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">
+                                    Transformation chimique
+                                </h3>
+                                <p class="font-body-md text-body-md text-on-surface-variant">
+                                    L'eau (<span class="font-medium">H₂O</span>) et le dioxyde de carbone (<span
+                                        class="font-medium">CO₂</span>) sont décomposés puis convertis en glucose
+                                    naturel.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Notion 3 (Violet pastel doux) -->
+                        <div
+                            class="bg-primary-fixed/40 rounded-xl p-space-md flex items-start gap-space-sm shadow-sm transition-all hover:bg-primary-fixed/60">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-primary-fixed flex items-center justify-center text-on-primary-fixed-variant shrink-0">
+                                <span class="text-lg">🍃</span>
+                            </div>
+                            <div class="flex flex-col min-w-0">
+                                <h3 class="font-headline-sm text-headline-sm text-on-primary-fixed-variant mb-1">
+                                    Stockage d'énergie
+                                </h3>
+                                <p class="font-body-md text-body-md text-on-surface-variant">
+                                    Le sucre fabriqué sert de carburant nutritif pour nourrir la plante tout en libérant
+                                    de l'oxygène pur dans l'air.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Actions de Révision Claires en Bas -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm pt-space-xs">
+                        <a class="flex items-center justify-center gap-2 py-3 px-space-md rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-headline-sm text-headline-sm shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 text-center"
+                            data-path="flashcards" href="#">
+                            <span>👉 S'entraîner avec les Flashcards</span>
+                            <span
+                                class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">5</span>
+                        </a>
+                        <a class="flex items-center justify-center gap-2 py-3 px-space-md rounded-xl bg-tertiary hover:bg-tertiary-container text-on-tertiary font-headline-sm text-headline-sm shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 text-center"
+                            data-path="mini-quiz" href="#">
+                            <span>🎯 Faire le Mini-Quiz</span>
+                            <span
+                                class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">3
+                                Q</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Petite Note Motivationnelle -->
+                <div
+                    class="mt-space-lg text-center font-body-sm text-body-sm text-on-surface-variant flex items-center justify-center gap-1.5 opacity-80">
+                    <span class="material-symbols-outlined text-[18px] text-secondary">verified</span>
+                    <span>Généré en 0.4s • Format adapté à la mémorisation active</span>
+                </div>
+            </div>
+        </div>
+        <script>
+            const sampleTexts = {
+                photosynthese: "La photosynthèse est le processus bioénergétique qui permet aux plantes et cyanobactéries de synthétiser de la matière organique en utilisant la lumière du soleil. L'eau puisée par les racines et le dioxyde de carbone capté dans l'atmosphère sont transformés en glucides tout en produisant de l'oxygène comme déchet métabolique essentiel.",
+                "loi-ohm": "La loi d'Ohm relie directement la tension, l'intensité et la résistance dans un circuit électrique linéaire : U = R × I. La différence de potentiel aux bornes d'un conducteur ohmique est proportionnelle au courant qui le traverse, mesuré en ampères et dépendant de la résistance exprimée en ohms.",
+                revolution: "En 1789, la Révolution française marque la rupture avec la monarchie absolue et l'Ancien Régime. Déclenchée par une crise financière et sociale, elle aboutit à la prise de la Bastille le 14 juillet, à l'abolition des privilèges féodaux et à la Déclaration des droits de l'homme et du citoyen."
+            };
+
+            const textarea = document.getElementById('course-input');
+            const countEl = document.getElementById('char-count');
+
+            function updateWordCount() {
+                const text = textarea.value.trim();
+                const words = text ? text.split(/\s+/).length : 0;
+                countEl.textContent = words;
+            }
+
+            textarea.addEventListener('input', updateWordCount);
+
+            function fillSample(topic) {
+                if (sampleTexts[topic]) {
+                    textarea.value = sampleTexts[topic];
+                    updateWordCount();
+                    textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+
+            function generateRevision() {
+                const btn = document.getElementById('btn-generate');
+                const originalText = btn.innerHTML;
+
+                btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">refresh</span> <span>Analyse en cours...</span>';
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    const res = document.getElementById('results-section');
+                    res.classList.remove('opacity-0');
+                    res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 600);
+            }
+        </script>
+    </main>
+    <footer class="w-full bg-surface-container-lowest border-t border-outline-variant/30 py-space-md">
+        <div
+            class="max-w-5xl mx-auto px-margin flex flex-col sm:flex-row items-center justify-between gap-space-sm text-on-surface-variant font-body-sm text-body-sm">
+            <p class="flex items-center gap-1"><span class="text-primary font-headline-sm text-label-sm">⚡
+                    FlashLearn</span><span>— Apprentissage ultra-rapide &amp; interactif</span></p>
+            <div class="flex items-center gap-space-md font-label-sm text-label-sm"><span
+                    class="text-secondary flex items-center gap-1"><span
+                        class="w-2 h-2 rounded-full bg-secondary"></span>Prêt à réviser</span><span>© 2025
+                    FlashLearn</span></div>
+        </div>
+    </footer>
+</body>
+
+</html>
