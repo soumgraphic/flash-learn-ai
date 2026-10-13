@@ -60,9 +60,11 @@ jobs:
             --region ${{ env.GAR_LOCATION }} \
             --platform managed \
             --allow-unauthenticated \
+            --port 8000 \
             $CLOUDSQL_FLAG \
             --set-env-vars ENVIRONMENT=production,ALGORITHM=HS256 \
             --set-secrets SECRET_KEY=FLASHLEARN_SECRET_KEY:latest,DATABASE_URL=FLASHLEARN_DATABASE_URL:latest,GEMINI_API_KEY=FLASHLEARN_GEMINI_KEY:latest
+
 
 
 
