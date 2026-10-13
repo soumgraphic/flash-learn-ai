@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  # ---------------------------------------------------------------------------
+  # PostgreSQL Database Container
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: flashlearn_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-flashlearn_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # FastAPI REST API Backend
+  # ---------------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: flashlearn_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      ENVIRONMENT: development
+      SECRET_KEY: ${SECRET_KEY:-local-development-secret-key-do-not-use-in-prod}
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@postgres:5432/flashlearn_db
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      CORS_ORIGINS: '["http://localhost:3000","http://127.0.0.1:3000"]'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend/app:/app/app
+
+volumes:
+  postgres_data:
+    driver: local
