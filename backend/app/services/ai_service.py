@@ -89,21 +89,30 @@ class GeminiAIService:
 
         prompt = f"{SYSTEM_PROMPT}\n\nHere are the student's lecture notes:\n\n{lecture_text}"
 
-        # Configuration: Request structured JSON with LOW thinking budget (fast reasoning)
+        # Configuration: Request structured JSON with LOW thinking level (fast reasoning)
         gen_config: dict[str, Any] = {
             "response_mime_type": "application/json",
         }
 
-        # Apply low thinking budget if configured (e.g. 1024 tokens for low reasoning latency)
-        if hasattr(settings, "GEMINI_THINKING_BUDGET") and settings.GEMINI_THINKING_BUDGET > 0:
-            gen_config["thinking_config"] = {"thinking_budget": settings.GEMINI_THINKING_BUDGET}
+        # Gemini 3.7 Flash thinking configuration:
+        # 1. Primary: thinking_level="low" (standard for Gemini 3 series)
+        # 2. Secondary: thinking_budget (numeric token budget fallback)
+        thinking_level = getattr(settings, "GEMINI_THINKING_LEVEL", "low")
+        thinking_budget = getattr(settings, "GEMINI_THINKING_BUDGET", 1024)
+
+        if thinking_level:
+            gen_config["thinking_config"] = {"thinking_level": thinking_level}
+        elif thinking_budget and thinking_budget > 0:
+            gen_config["thinking_config"] = {"thinking_budget": thinking_budget}
 
         try:
             try:
                 response = self.model.generate_content(prompt, generation_config=gen_config)
             except Exception as model_err:
-                # If the specific model or SDK version doesn't accept thinking_config, retry with standard JSON output
-                logger.warning(f"Thinking config attempt encountered: {model_err}. Falling back to standard JSON generation.")
+                # If specific client version rejects thinking_level dict, try thinking_budget or standard generation
+                logger.warning(
+                    f"Thinking config attempt encountered: {model_err}. Falling back to standard JSON generation."
+                )
                 response = self.model.generate_content(
                     prompt, generation_config={"response_mime_type": "application/json"}
                 )

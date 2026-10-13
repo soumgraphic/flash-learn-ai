@@ -48,8 +48,9 @@ class Settings(BaseSettings):
 
     # Gemini AI Configuration
     GEMINI_API_KEY: str = ""
-    GEMINI_MODEL: str = "gemini-2.5-flash"  # Supports thinking/reasoning modes
-    GEMINI_THINKING_BUDGET: int = 1024       # Low thinking mode (fast, low-latency reasoning)
+    GEMINI_MODEL: str = "gemini-3.7-flash"     # Google Gemini reasoning model
+    GEMINI_THINKING_LEVEL: str = "low"         # Options: "low", "medium", "high"
+    GEMINI_THINKING_BUDGET: int = 1024         # Token budget fallback for models using numeric limits
 
     # Rate Limiting
     RATE_LIMIT_LOGIN: str = "5/minute"
