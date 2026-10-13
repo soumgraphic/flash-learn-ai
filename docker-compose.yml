@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   # ---------------------------------------------------------------------------
-  # PostgreSQL Database Container
+  # PostgreSQL 16 Database
   # ---------------------------------------------------------------------------
   postgres:
     image: postgres:16-alpine
@@ -44,6 +44,23 @@ services:
         condition: service_healthy
     volumes:
       - ./backend/app:/app/app
+
+  # ---------------------------------------------------------------------------
+  # Next.js 14 Frontend Web Application
+  # ---------------------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: flashlearn_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: http://localhost:8000/api/v1
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
