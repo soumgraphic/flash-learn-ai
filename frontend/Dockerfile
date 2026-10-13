@@ -25,14 +25,17 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 
+# Set up app directory ownership for non-root user
+RUN mkdir -p /app/public && chown -R node:node /app
+
 # Security Hardening: Run as an unprivileged node user
 USER node
 
 # Copy only standalone output and static assets
-RUN mkdir -p ./public
+COPY --from=builder --chown=node:node /app/public ./public
 COPY --from=builder --chown=node:node /app/.next/standalone ./
 COPY --from=builder --chown=node:node /app/.next/static ./.next/static
-COPY --from=builder /app/public ./public
+
 
 
 EXPOSE 3000
