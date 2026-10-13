@@ -126,13 +126,19 @@ gcloud artifacts repositories create flashlearn-repo \
 
 ## Step 6: Configure Cloud SQL (Firebase Data Connect) Instance
 
-### A. List Your Cloud SQL Instances
+### A. Ensure Cloud SQL Admin API is Activated
+```bash
+gcloud services enable sqladmin.googleapis.com
+```
+
+### B. List Your Cloud SQL Instances
 ```bash
 gcloud sql instances list
 ```
 Note your **INSTANCE_NAME** and its full connection name (e.g., `PROJECT_ID:REGION:INSTANCE_NAME`).
 
-### B. Set the Database Password for `postgres`
+### C. Set the Database Password for `postgres`
+
 
 Replace "YourSuperSecurePassword123!" with your actual database password.
 
