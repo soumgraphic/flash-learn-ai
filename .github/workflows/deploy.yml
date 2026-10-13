@@ -33,6 +33,9 @@ jobs:
         run: |
           gcloud auth configure-docker ${{ env.GAR_LOCATION }}-docker.pkg.dev --quiet
 
+      # -----------------------------------------------------------------------
+      # 1. Backend Build & Cloud Run Deploy
+      # -----------------------------------------------------------------------
       - name: Build & Push Backend Container Image
         working-directory: ./backend
         run: |
@@ -42,6 +45,7 @@ jobs:
           docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/flashlearn-repo/${{ env.SERVICE_BACKEND }}:latest"
 
       - name: Deploy Backend to Google Cloud Run
+        id: deploy-backend
         run: |
           IMAGE_TAG="${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/flashlearn-repo/${{ env.SERVICE_BACKEND }}:${{ github.sha }}"
           gcloud run deploy ${{ env.SERVICE_BACKEND }} \
@@ -51,3 +55,33 @@ jobs:
             --allow-unauthenticated \
             --set-env-vars ENVIRONMENT=production,ALGORITHM=HS256 \
             --set-secrets SECRET_KEY=FLASHLEARN_SECRET_KEY:latest,DATABASE_URL=FLASHLEARN_DATABASE_URL:latest,GEMINI_API_KEY=FLASHLEARN_GEMINI_KEY:latest
+
+          # Retrieve deployed Backend URL
+          BACKEND_URL=$(gcloud run services describe ${{ env.SERVICE_BACKEND }} --platform managed --region ${{ env.GAR_LOCATION }} --format 'value(status.url)')
+          echo "BACKEND_URL=$BACKEND_URL" >> $GITHUB_ENV
+
+      # -----------------------------------------------------------------------
+      # 2. Frontend Build & Cloud Run Deploy
+      # -----------------------------------------------------------------------
+      - name: Build & Push Frontend Container Image
+        working-directory: ./frontend
+        run: |
+          IMAGE_TAG="${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/flashlearn-repo/${{ env.SERVICE_FRONTEND }}:${{ github.sha }}"
+          docker build \
+            --build-arg NEXT_PUBLIC_API_URL="${{ env.BACKEND_URL }}/api/v1" \
+            -t "$IMAGE_TAG" \
+            -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/flashlearn-repo/${{ env.SERVICE_FRONTEND }}:latest" .
+          docker push "$IMAGE_TAG"
+          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/flashlearn-repo/${{ env.SERVICE_FRONTEND }}:latest"
+
+      - name: Deploy Frontend to Google Cloud Run
+        run: |
+          IMAGE_TAG="${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/flashlearn-repo/${{ env.SERVICE_FRONTEND }}:${{ github.sha }}"
+          gcloud run deploy ${{ env.SERVICE_FRONTEND }} \
+            --image "$IMAGE_TAG" \
+            --region ${{ env.GAR_LOCATION }} \
+            --platform managed \
+            --allow-unauthenticated \
+            --port 3000 \
+            --set-env-vars NODE_ENV=production,NEXT_PUBLIC_API_URL="${{ env.BACKEND_URL }}/api/v1"
+
