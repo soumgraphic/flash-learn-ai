@@ -1,0 +1,67 @@
+"""Courses router (HTTP Controller) for creating and managing AI study decks.
+
+Educational Notes for Students:
+------------------------------
+1. Controller Responsibility:
+   - Receives HTTP requests, validates Pydantic payloads.
+   - Enforces user authentication via `get_current_user`.
+   - Protects resource-heavy AI generation with rate limiting.
+   - Delegates multi-step persistence and Gemini calls to `course_service`.
+"""
+
+from __future__ import annotations
+
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, Request, status
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.api.deps import get_current_user
+from app.core.config import settings
+from app.core.database import get_db
+from app.core.limiter import limiter
+from app.models import User
+from app.schemas import CourseDetailResponse, CourseGenerateRequest
+from app.services.course_service import course_service
+
+router = APIRouter(prefix="/courses", tags=["Courses & AI Generation"])
+
+
+@router.post(
+    "/generate",
+    response_model=CourseDetailResponse,
+    status_code=status.HTTP_201_CREATED,
+    summary="Generate key concepts, flashcards & quiz from lecture text",
+)
+@limiter.limit(settings.RATE_LIMIT_AI_GENERATE)
+async def generate_course(
+    request: Request,
+    payload: CourseGenerateRequest,
+    current_user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[AsyncSession, Depends(get_db)],
+):
+    """Processes lecture notes through Gemini AI and persists structured study cards."""
+    return await course_service.generate_and_save_course(
+        db=db,
+        current_user=current_user,
+        payload=payload,
+    )
+
+
+@router.get(
+    "/{course_id}",
+    response_model=CourseDetailResponse,
+    summary="Get single course details with all cards and quizzes",
+)
+async def get_course_detail(
+    course_id: str,
+    current_user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[AsyncSession, Depends(get_db)],
+):
+    """Retrieve full study material for a specific course belonging to the student."""
+    course = await course_service.get_course_by_id(
+        db=db,
+        course_id=course_id,
+        user_id=current_user.id,
+    )
+    return course_service._serialize_course(course)
