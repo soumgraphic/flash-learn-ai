@@ -15,6 +15,11 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.openapi.docs import (
+    get_redoc_html,
+    get_swagger_ui_html,
+    get_swagger_ui_oauth2_redirect_html,
+)
 from fastapi.responses import JSONResponse
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -47,12 +52,6 @@ async def lifespan(app: FastAPI):
     yield
     logger.info("Shutting down FlashLearn AI backend.")
 
-
-from fastapi.openapi.docs import (
-    get_redoc_html,
-    get_swagger_ui_html,
-    get_swagger_ui_oauth2_redirect_html,
-)
 
 # Initialize FastAPI application
 # Security Best Practice: Disable Swagger & OpenAPI exploration in production
