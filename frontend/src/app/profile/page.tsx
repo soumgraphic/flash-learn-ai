@@ -41,10 +41,10 @@ export default function ProfilePage() {
       try {
         const [profileData, coursesData] = await Promise.all([
           api.getProfile(),
-          api.getMyCourses().catch(() => []),
+          api.getMyCourses(),
         ]);
         setUser(profileData as UserType);
-        setCourses(coursesData as CourseSummary[]);
+        setCourses((coursesData || []) as CourseSummary[]);
       } catch (err: any) {
         console.error("Profile load error:", err);
         setError(err.message || "Failed to load authenticated profile.");
@@ -119,6 +119,11 @@ export default function ProfilePage() {
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="max-w-4xl mx-auto flex flex-col gap-8">
+          {error && (
+            <div className="p-4 rounded-2xl bg-error-container text-on-error-container text-xs font-medium">
+              ⚠️ {error}
+            </div>
+          )}
           {/* 1. Profile Header Card */}
           <div className="relative overflow-hidden rounded-3xl bg-surface-container-lowest p-6 sm:p-8 border border-outline/10 shadow-xl">
             <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
