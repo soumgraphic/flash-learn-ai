@@ -88,6 +88,7 @@ class Course(Base):
     # Gamification & Completion Tracking
     is_completed: Mapped[bool] = mapped_column(Boolean, default=False)
     xp_earned: Mapped[int] = mapped_column(Integer, default=50)
+    quiz_score: Mapped[Optional[int]] = mapped_column(Integer, nullable=True, default=None)
     completed_at: Mapped[Optional[datetime]] = mapped_column(
         DateTime(timezone=True),
         nullable=True,

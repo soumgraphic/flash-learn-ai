@@ -149,6 +149,7 @@ class CourseService:
                 created_at=c.created_at,
                 is_completed=c.is_completed,
                 xp_earned=c.xp_earned,
+                quiz_score=c.quiz_score,
                 completed_at=c.completed_at,
                 concepts_count=len(c.key_concepts),
                 flashcards_count=len(c.flashcards),

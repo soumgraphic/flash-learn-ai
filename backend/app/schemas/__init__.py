@@ -151,6 +151,7 @@ class CourseSummaryResponse(BaseModel):
     created_at: datetime
     is_completed: bool = False
     xp_earned: int = 50
+    quiz_score: int | None = None
     completed_at: datetime | None = None
     concepts_count: int = 0
     flashcards_count: int = 0
@@ -176,6 +177,7 @@ class CourseDetailResponse(BaseModel):
     created_at: datetime
     is_completed: bool = False
     xp_earned: int = 50
+    quiz_score: int | None = None
     completed_at: datetime | None = None
     key_concepts: list[KeyConceptSchema]
     flashcards: list[FlashcardSchema]
