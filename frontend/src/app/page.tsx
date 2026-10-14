@@ -37,22 +37,17 @@ export default function HomePage() {
     // Check if user is authenticated via JWT in localStorage
     const token = typeof window !== "undefined" ? localStorage.getItem("flashlearn_token") : null;
     if (token) {
-      setIsAuthenticated(true);
       api
         .getProfile()
-        .then((data) => setCurrentUser(data as UserType))
+        .then((data) => {
+          setIsAuthenticated(true);
+          setCurrentUser(data as UserType);
+        })
         .catch(() => {
-          // Fallback user defaults to Soumaila
-          setCurrentUser({
-            id: "user-soumaila",
-            email: "soumaila@flashlearn.ai",
-            full_name: "Soumaila Diarra",
-            is_active: true,
-            xp_points: 150,
-            level: 2,
-            streak_days: 3,
-            created_at: new Date().toISOString(),
-          });
+          // Token is expired or invalid: clear it to prevent desync
+          localStorage.removeItem("flashlearn_token");
+          setIsAuthenticated(false);
+          setCurrentUser(null);
         });
     }
   }, []);

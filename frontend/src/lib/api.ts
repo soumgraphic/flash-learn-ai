@@ -108,7 +108,7 @@ class ApiClient {
     return this.request(`/courses/${courseId}`);
   }
 
-  async completeCourse(courseId: string) {
+  async completeCourse(courseId: string, score?: number) {
     return this.request<{
       course_id: string;
       is_completed: boolean;
@@ -118,6 +118,7 @@ class ApiClient {
       message: string;
     }>(`/courses/${courseId}/complete`, {
       method: "POST",
+      body: JSON.stringify(score !== undefined ? { score } : {}),
     });
   }
 }

@@ -297,6 +297,12 @@ export default function ProfilePage() {
                             In Progress (+50 XP)
                           </span>
                         )}
+                        {course.quiz_score !== undefined && course.quiz_score !== null && (
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[11px] font-bold border border-amber-500/20">
+                            <Trophy className="w-3 h-3 text-amber-500" />
+                            Score: {course.quiz_score}/{course.quiz_questions_count}
+                          </span>
+                        )}
                       </div>
 
                       <div className="flex items-center gap-3 text-xs text-on-surface-variant">

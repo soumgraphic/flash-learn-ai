@@ -45,6 +45,7 @@ export interface CourseDetail {
   created_at: string;
   is_completed?: boolean;
   xp_earned?: number;
+  quiz_score?: number;
   completed_at?: string;
   key_concepts: KeyConcept[];
   flashcards: Flashcard[];
@@ -57,6 +58,7 @@ export interface CourseSummary {
   created_at: string;
   is_completed: boolean;
   xp_earned: number;
+  quiz_score?: number;
   completed_at?: string;
   concepts_count: number;
   flashcards_count: number;

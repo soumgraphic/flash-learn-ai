@@ -60,10 +60,10 @@ export function QuizRunner({
       });
       if (onFinish) onFinish(score);
 
-      // If tied to a saved course, trigger backend completion and bonus XP
+      // If tied to a saved course, trigger backend completion and bonus XP with score
       if (courseId) {
         try {
-          const res = await api.completeCourse(courseId);
+          const res = await api.completeCourse(courseId, score);
           setCompletionMessage(res.message);
           if (onCourseCompleted) {
             onCourseCompleted(res.xp_awarded, res.total_xp, res.level);

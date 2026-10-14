@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
@@ -16,6 +16,16 @@ export default function LoginPage() {
   const [fullName, setFullName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // If already authenticated with a valid token, auto-redirect to homepage/dashboard
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("flashlearn_token");
+      if (token) {
+        router.replace("/");
+      }
+    }
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
