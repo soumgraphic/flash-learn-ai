@@ -46,10 +46,6 @@ export default function ForgotPasswordPage() {
               <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed mb-6">
                 {message}
               </p>
-              <div className="p-3.5 rounded-2xl bg-surface-container-low text-xs text-on-surface-variant border border-outline/10 mb-6 text-left">
-                <strong className="text-primary block mb-0.5">💡 Student Learning Note:</strong>
-                For zero-leak security, the backend never reveals whether an email is registered. In local development, check your backend server console to view the reset link.
-              </div>
               <Link
                 href="/login"
                 className="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-primary hover:bg-primary-container text-white font-bold text-sm transition-all shadow-md shadow-primary/20"
