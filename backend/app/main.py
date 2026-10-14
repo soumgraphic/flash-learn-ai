@@ -126,19 +126,27 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         return response
 
 
+# Add SecurityHeadersMiddleware first (Inner layer)
 app.add_middleware(SecurityHeadersMiddleware)
 
 # -----------------------------------------------------------------------------
-# CORS Middleware Configuration
+# CORS Middleware Configuration (Outer layer)
+# Must be added LAST so that it intercepts preflight OPTIONS requests first
+# and guarantees CORS headers on all responses (including errors).
 # -----------------------------------------------------------------------------
+
+# Pattern allows localhost for local dev and any Google Cloud Run domain (https://*.run.app)
+CLOUD_RUN_ORIGINS_REGEX = r"https://.*\.run\.app$|http://localhost:\d+|http://127\.0\.0\.1:\d+"
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
+    allow_origin_regex=CLOUD_RUN_ORIGINS_REGEX,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 
 # -----------------------------------------------------------------------------
