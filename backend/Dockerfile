@@ -18,8 +18,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application source code
+# Copy application source code & Alembic migration configuration
 COPY app/ /app/app/
+COPY alembic/ /app/alembic/
+COPY alembic.ini /app/
 
 # Security Hardening: Run as an unprivileged non-root user
 RUN groupadd -g 1001 appgroup && \
@@ -36,6 +38,6 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
 
 ENV PORT=8000
 
-# Production server entrypoint (binds dynamically to $PORT supplied by Cloud Run or defaults to 8000)
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+# Production server entrypoint (applies schema migrations at boot, then starts Uvicorn on $PORT)
+CMD ["sh", "-c", "alembic upgrade head || true && uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
 
