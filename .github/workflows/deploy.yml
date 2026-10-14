@@ -98,7 +98,7 @@ jobs:
             --port 8000 \
             $CLOUDSQL_FLAG \
             --set-env-vars ENVIRONMENT=production,ALGORITHM=HS256 \
-            --set-secrets SECRET_KEY=FLASHLEARN_SECRET_KEY:latest,DATABASE_URL=FLASHLEARN_DATABASE_URL:latest,GEMINI_API_KEY=FLASHLEARN_GEMINI_KEY:latest
+            --set-secrets SECRET_KEY=FLASHLEARN_SECRET_KEY:latest,DATABASE_URL=FLASHLEARN_DATABASE_URL:latest,GEMINI_API_KEY=FLASHLEARN_GEMINI_KEY:latest,RESEND_API_KEY=FLASHLEARN_RESEND_API_KEY:latest
 
       - name: Capture Live Backend URL
         id: get-backend-url
