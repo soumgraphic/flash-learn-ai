@@ -94,10 +94,13 @@ async def complete_course(
     course_id: str,
     current_user: Annotated[User, Depends(get_current_user)],
     db: Annotated[AsyncSession, Depends(get_db)],
+    score_payload: dict | None = None,
 ):
-    """Completes course revision, awards bonus XP and levels up student progress."""
+    """Completes course revision, records quiz score, awards bonus XP and levels up student progress."""
+    quiz_score = score_payload.get("score") if isinstance(score_payload, dict) else None
     return await course_service.mark_course_completed(
         db=db,
         course_id=course_id,
         current_user=current_user,
+        quiz_score=quiz_score,
     )

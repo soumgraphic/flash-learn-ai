@@ -159,20 +159,30 @@ class CourseService:
         ]
 
     async def mark_course_completed(
-        self, db: AsyncSession, course_id: str, current_user: User
+        self,
+        db: AsyncSession,
+        course_id: str,
+        current_user: User,
+        quiz_score: int | None = None,
     ) -> CourseCompleteResponse:
         """Awards completion XP when a student finishes flashcards/quizzes."""
         course = await self.get_course_by_id(db=db, course_id=course_id, user_id=current_user.id)
 
+        # Update quiz score if provided
+        if quiz_score is not None:
+            course.quiz_score = quiz_score
+
         # Idempotency check: if already completed, do not award duplicate XP
         if course.is_completed:
+            db.add(course)
+            await db.commit()
             return CourseCompleteResponse(
                 course_id=course.id,
                 is_completed=True,
                 xp_awarded=0,
                 total_xp=current_user.xp_points,
                 level=current_user.level,
-                message="Course already completed. Keep up the great work!",
+                message="Course updated! Keep up the great work!",
             )
 
         # Award 100 bonus XP for completing the deck
