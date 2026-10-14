@@ -160,6 +160,12 @@ jobs:
           FRONTEND_URL=$(gcloud run services describe ${{ env.SERVICE_FRONTEND }} --platform managed --region ${{ env.GAR_LOCATION }} --format 'value(status.url)')
           echo "frontend_url=$FRONTEND_URL" >> $GITHUB_OUTPUT
 
+          # Sync the production frontend URL to the backend so password reset emails contain the live link
+          gcloud run services update ${{ env.SERVICE_BACKEND }} \
+            --region ${{ env.GAR_LOCATION }} \
+            --platform managed \
+            --update-env-vars FRONTEND_URL="$FRONTEND_URL"
+
       - name: 📊 Generate Production Deployment Dashboard
         if: always()
         env:
