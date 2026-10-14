@@ -14,7 +14,12 @@ interface QuizRunnerProps {
   onCourseCompleted?: (awardedXp: number, totalXp: number, level: number) => void;
 }
 
-export function QuizRunner({ questions, onFinish }: QuizRunnerProps) {
+export function QuizRunner({
+  questions,
+  courseId,
+  onFinish,
+  onCourseCompleted,
+}: QuizRunnerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [score, setScore] = useState(0);
