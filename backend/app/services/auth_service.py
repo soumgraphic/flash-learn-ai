@@ -21,6 +21,7 @@ from app.core.exceptions import (
 from app.core.security import (
     create_access_token,
     create_refresh_token,
+    decode_refresh_token,
     get_password_hash,
     verify_password,
 )
@@ -70,6 +71,38 @@ class AuthService:
         return TokenResponse(
             access_token=access_token,
             refresh_token=refresh_token,
+            token_type="bearer",
+            expires_in=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        )
+
+    async def refresh_student_token(
+        self, db: AsyncSession, refresh_token: str
+    ) -> TokenResponse:
+        """Validates a refresh token and issues a fresh token pair (Token Rotation)."""
+        try:
+            payload = decode_refresh_token(refresh_token)
+            user_id = payload.get("sub")
+            token_type = payload.get("type")
+
+            if not user_id or token_type != "refresh":
+                raise InvalidCredentialsError("Invalid refresh token type.")
+        except Exception as err:
+            raise InvalidCredentialsError("Invalid or expired refresh token.") from err
+
+        result = await db.execute(select(User).where(User.id == user_id))
+        user = result.scalar_one_or_none()
+
+        if not user:
+            raise InvalidCredentialsError("User account not found.")
+        if not user.is_active:
+            raise InactiveUserError("User account is disabled.")
+
+        new_access_token = create_access_token(subject=user.id)
+        new_refresh_token = create_refresh_token(subject=user.id)
+
+        return TokenResponse(
+            access_token=new_access_token,
+            refresh_token=new_refresh_token,
             token_type="bearer",
             expires_in=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         )

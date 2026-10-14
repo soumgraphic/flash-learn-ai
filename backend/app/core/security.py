@@ -67,8 +67,13 @@ def create_access_token(
     return encoded_jwt
 
 
+def get_refresh_secret_key() -> str:
+    """Returns the dedicated refresh token secret key or derives an isolated key."""
+    return settings.REFRESH_SECRET_KEY or f"{settings.SECRET_KEY}-refresh-salt"
+
+
 def create_refresh_token(subject: str | Any) -> str:
-    """Creates a long-lived JWT Refresh Token for renewing expired access tokens."""
+    """Creates a long-lived JWT Refresh Token signed with an isolated key."""
     now = datetime.now(timezone.utc)
     expire = now + timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS)
 
@@ -78,5 +83,10 @@ def create_refresh_token(subject: str | Any) -> str:
         "exp": int(expire.timestamp()),
         "type": "refresh",
     }
-    encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, get_refresh_secret_key(), algorithm=settings.ALGORITHM)
     return encoded_jwt
+
+
+def decode_refresh_token(token: str) -> dict[str, Any]:
+    """Decodes and validates a refresh token, strictly enforcing refresh token type."""
+    return jwt.decode(token, get_refresh_secret_key(), algorithms=[settings.ALGORITHM])

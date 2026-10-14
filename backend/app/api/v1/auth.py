@@ -21,7 +21,13 @@ from app.core.config import settings
 from app.core.database import get_db
 from app.core.limiter import limiter
 from app.models import User
-from app.schemas import TokenResponse, UserLoginRequest, UserRegisterRequest, UserResponse
+from app.schemas import (
+    RefreshTokenRequest,
+    TokenResponse,
+    UserLoginRequest,
+    UserRegisterRequest,
+    UserResponse,
+)
 from app.services.auth_service import auth_service
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
@@ -56,6 +62,21 @@ async def login_user(
 ):
     """Authenticate via email & password and receive an access token pair."""
     return await auth_service.authenticate_student(db=db, payload=payload)
+
+
+@router.post(
+    "/refresh",
+    response_model=TokenResponse,
+    summary="Rotate refresh token and issue a fresh access token",
+)
+@limiter.limit(settings.RATE_LIMIT_LOGIN)
+async def refresh_token(
+    request: Request,
+    payload: RefreshTokenRequest,
+    db: Annotated[AsyncSession, Depends(get_db)],
+):
+    """Exchanges a valid refresh token for a newly signed access/refresh token pair."""
+    return await auth_service.refresh_student_token(db=db, refresh_token=payload.refresh_token)
 
 
 @router.get(
