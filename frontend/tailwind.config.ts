@@ -46,8 +46,8 @@ const config: Config = {
         "on-background": "var(--on-background)",
       },
       fontFamily: {
-        headline: ["var(--font-plus-jakarta)", "sans-serif"],
-        body: ["var(--font-inter)", "sans-serif"],
+        headline: ["'Plus Jakarta Sans'", "sans-serif"],
+        body: ["Inter", "sans-serif"],
       },
       borderRadius: {
         xl: "1rem",
