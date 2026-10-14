@@ -85,6 +85,14 @@ class Course(Base):
         default=lambda: datetime.now(timezone.utc),
     )
 
+    # Gamification & Completion Tracking
+    is_completed: Mapped[bool] = mapped_column(Boolean, default=False)
+    xp_earned: Mapped[int] = mapped_column(Integer, default=50)
+    completed_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+
     # Relationships
     owner: Mapped["User"] = relationship("User", back_populates="courses")
     key_concepts: Mapped[list["KeyConcept"]] = relationship(

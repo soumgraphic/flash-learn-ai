@@ -112,10 +112,48 @@ class QuizQuestionSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+class RefreshTokenRequest(BaseModel):
+    """Payload to exchange a valid refresh token for a fresh access token."""
+
+    refresh_token: str = Field(min_length=1)
+
+    model_config = ConfigDict(extra="forbid")
+
+
+class CourseSummaryResponse(BaseModel):
+    """Concise representation of a student's study deck for course listing and profile."""
+
+    id: str
+    title: str
+    created_at: datetime
+    is_completed: bool = False
+    xp_earned: int = 50
+    completed_at: datetime | None = None
+    concepts_count: int = 0
+    flashcards_count: int = 0
+    quiz_questions_count: int = 0
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class CourseCompleteResponse(BaseModel):
+    """Gamified completion result returning bonus XP and updated student level."""
+
+    course_id: str
+    is_completed: bool
+    xp_awarded: int
+    total_xp: int
+    level: int
+    message: str
+
+
 class CourseDetailResponse(BaseModel):
     id: str
     title: str
     created_at: datetime
+    is_completed: bool = False
+    xp_earned: int = 50
+    completed_at: datetime | None = None
     key_concepts: list[KeyConceptSchema]
     flashcards: list[FlashcardSchema]
     quiz_questions: list[QuizQuestionSchema]
