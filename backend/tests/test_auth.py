@@ -109,3 +109,54 @@ async def test_protected_route_without_token_fails(client: AsyncClient):
     """Verify unauthenticated requests to protected endpoints return 401."""
     res = await client.get("/api/v1/auth/me")
     assert res.status_code == 401
+
+
+async def test_refresh_token_rotation_success(client: AsyncClient):
+    """Verify refresh token can issue new token pairs."""
+    reg_payload = {
+        "email": "refresh_user@example.com",
+        "password": "SecurePassword123!",
+        "full_name": "Rotation Tester",
+    }
+    await client.post("/api/v1/auth/register", json=reg_payload)
+
+    login_res = await client.post(
+        "/api/v1/auth/login",
+        json={"email": "refresh_user@example.com", "password": "SecurePassword123!"},
+    )
+    assert login_res.status_code == 200
+    refresh_token = login_res.json()["refresh_token"]
+
+    # Exchange refresh token for fresh pair
+    refresh_res = await client.post(
+        "/api/v1/auth/refresh",
+        json={"refresh_token": refresh_token},
+    )
+    assert refresh_res.status_code == 200
+    new_data = refresh_res.json()
+    assert "access_token" in new_data
+    assert "refresh_token" in new_data
+
+
+async def test_refresh_token_rejects_access_token_or_garbage(client: AsyncClient):
+    """Verify token type confusion attack is blocked (access token passed to refresh)."""
+    reg_payload = {
+        "email": "reject_token_user@example.com",
+        "password": "SecurePassword123!",
+        "full_name": "Reject Tester",
+    }
+    await client.post("/api/v1/auth/register", json=reg_payload)
+
+    login_res = await client.post(
+        "/api/v1/auth/login",
+        json={"email": "reject_token_user@example.com", "password": "SecurePassword123!"},
+    )
+    assert login_res.status_code == 200
+    access_token = login_res.json()["access_token"]
+
+    # Pass access token instead of refresh token
+    bad_res = await client.post(
+        "/api/v1/auth/refresh",
+        json={"refresh_token": access_token},
+    )
+    assert bad_res.status_code == 401

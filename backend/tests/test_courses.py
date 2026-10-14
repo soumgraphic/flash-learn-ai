@@ -69,3 +69,38 @@ async def test_generate_course_success(client: AsyncClient):
     me_res = await client.get("/api/v1/auth/me", headers=headers)
     assert me_res.status_code == 200
     assert me_res.json()["xp_points"] == 50
+
+    # 4. List user courses
+    list_res = await client.get("/api/v1/courses/", headers=headers)
+    assert list_res.status_code == 200
+    courses_list = list_res.json()
+    assert len(courses_list) >= 1
+    first_summary = courses_list[0]
+    assert first_summary["id"] == course_data["id"]
+    assert first_summary["is_completed"] is False
+    assert first_summary["concepts_count"] == 3
+    assert first_summary["flashcards_count"] >= 3
+
+    # 5. Fetch single course detail
+    detail_res = await client.get(f"/api/v1/courses/{course_data['id']}", headers=headers)
+    assert detail_res.status_code == 200
+    assert detail_res.json()["id"] == course_data["id"]
+
+    # 6. Complete course and verify bonus +100 XP (Total: 150 XP, Level 2)
+    complete_res = await client.post(
+        f"/api/v1/courses/{course_data['id']}/complete", headers=headers
+    )
+    assert complete_res.status_code == 200
+    complete_data = complete_res.json()
+    assert complete_data["is_completed"] is True
+    assert complete_data["xp_awarded"] == 100
+    assert complete_data["total_xp"] == 150
+    assert complete_data["level"] == 2
+
+    # Verify idempotency (second completion attempt awards 0 bonus XP)
+    repeat_res = await client.post(
+        f"/api/v1/courses/{course_data['id']}/complete", headers=headers
+    )
+    assert repeat_res.status_code == 200
+    assert repeat_res.json()["xp_awarded"] == 0
+    assert repeat_res.json()["total_xp"] == 150
