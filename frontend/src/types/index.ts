@@ -43,9 +43,33 @@ export interface CourseDetail {
   id: string;
   title: string;
   created_at: string;
+  is_completed?: boolean;
+  xp_earned?: number;
+  completed_at?: string;
   key_concepts: KeyConcept[];
   flashcards: Flashcard[];
   quiz_questions: QuizQuestion[];
+}
+
+export interface CourseSummary {
+  id: string;
+  title: string;
+  created_at: string;
+  is_completed: boolean;
+  xp_earned: number;
+  completed_at?: string;
+  concepts_count: number;
+  flashcards_count: number;
+  quiz_questions_count: number;
+}
+
+export interface CourseCompletionResult {
+  course_id: string;
+  is_completed: boolean;
+  xp_awarded: number;
+  total_xp: number;
+  level: number;
+  message: string;
 }
 
 export interface AuthTokens {

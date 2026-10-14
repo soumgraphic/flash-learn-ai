@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { QuizQuestion } from "@/types";
-import { CheckCircle, XCircle, Trophy, RotateCcw, ArrowRight } from "lucide-react";
+import { CheckCircle, XCircle, Trophy, RotateCcw, ArrowRight, Sparkles } from "lucide-react";
 import confetti from "canvas-confetti";
 import { cn } from "@/lib/utils";
+import { api } from "@/lib/api";
 
 interface QuizRunnerProps {
   questions: QuizQuestion[];
+  courseId?: string;
   onFinish?: (score: number) => void;
+  onCourseCompleted?: (awardedXp: number, totalXp: number, level: number) => void;
 }
 
 export function QuizRunner({ questions, onFinish }: QuizRunnerProps) {
@@ -37,7 +40,9 @@ export function QuizRunner({ questions, onFinish }: QuizRunnerProps) {
     }
   };
 
-  const handleNext = () => {
+  const [completionMessage, setCompletionMessage] = useState<string | null>(null);
+
+  const handleNext = async () => {
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex((prev) => prev + 1);
       setSelectedOption(null);
@@ -49,6 +54,19 @@ export function QuizRunner({ questions, onFinish }: QuizRunnerProps) {
         origin: { y: 0.6 },
       });
       if (onFinish) onFinish(score);
+
+      // If tied to a saved course, trigger backend completion and bonus XP
+      if (courseId) {
+        try {
+          const res = await api.completeCourse(courseId);
+          setCompletionMessage(res.message);
+          if (onCourseCompleted) {
+            onCourseCompleted(res.xp_awarded, res.total_xp, res.level);
+          }
+        } catch (e) {
+          console.error("Failed to mark course complete:", e);
+        }
+      }
     }
   };
 
@@ -57,6 +75,7 @@ export function QuizRunner({ questions, onFinish }: QuizRunnerProps) {
     setSelectedOption(null);
     setScore(0);
     setIsCompleted(false);
+    setCompletionMessage(null);
   };
 
   if (isCompleted) {
@@ -69,10 +88,17 @@ export function QuizRunner({ questions, onFinish }: QuizRunnerProps) {
         <h3 className="font-headline font-extrabold text-2xl text-on-surface mb-2">
           Quiz Completed! 🎉
         </h3>
-        <p className="text-on-surface-variant text-sm mb-6">
+        <p className="text-on-surface-variant text-sm mb-4">
           You scored <span className="font-extrabold text-primary">{score}</span> out of{" "}
           <span className="font-bold">{questions.length}</span> ({percentage}%)
         </p>
+
+        {completionMessage && (
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-secondary/15 text-secondary text-xs font-bold border border-secondary/20 mb-6 animate-pulse">
+            <Sparkles className="w-4 h-4" />
+            <span>{completionMessage}</span>
+          </div>
+        )}
 
         <div className="w-full bg-surface-container h-3 rounded-full overflow-hidden mb-8">
           <div

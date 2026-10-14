@@ -382,7 +382,15 @@ export default function HomePage() {
 
               {/* Tab 3: Gamified Quiz */}
               {activeTab === "quiz" && (
-                <QuizRunner questions={generatedCourse.quiz_questions} />
+                <QuizRunner
+                  questions={generatedCourse.quiz_questions}
+                  courseId={generatedCourse.id}
+                  onCourseCompleted={(_awarded, totalXp, level) => {
+                    setCurrentUser((prev) =>
+                      prev ? { ...prev, xp_points: totalXp, level: level } : null
+                    );
+                  }}
+                />
               )}
 
               <div className="mt-12 text-center">

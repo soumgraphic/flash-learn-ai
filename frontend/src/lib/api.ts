@@ -68,6 +68,16 @@ class ApiClient {
     return this.request("/auth/me");
   }
 
+  async refreshToken(refreshToken: string) {
+    return this.request<{ access_token: string; refresh_token: string }>(
+      "/auth/refresh",
+      {
+        method: "POST",
+        body: JSON.stringify({ refresh_token: refreshToken }),
+      }
+    );
+  }
+
   // Course & AI Generation Endpoints
   async generateCourse(data: { title?: string; lecture_text: string }) {
     return this.request("/courses/generate", {
@@ -76,8 +86,25 @@ class ApiClient {
     });
   }
 
+  async getMyCourses() {
+    return this.request<any[]>("/courses/");
+  }
+
   async getCourse(courseId: string) {
     return this.request(`/courses/${courseId}`);
+  }
+
+  async completeCourse(courseId: string) {
+    return this.request<{
+      course_id: string;
+      is_completed: boolean;
+      xp_awarded: number;
+      total_xp: number;
+      level: number;
+      message: string;
+    }>(`/courses/${courseId}/complete`, {
+      method: "POST",
+    });
   }
 }
 
