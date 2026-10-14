@@ -129,9 +129,12 @@ class AuthService:
                 email=user.email,
                 current_hashed_password=user.hashed_password,
             )
-            logger.info(
-                f"[PASSWORD RESET] Password reset requested for {user.email}. "
-                f"Reset Token: {reset_token}"
+            # Dispatch transactional email (falls back to logger in dev if no RESEND_API_KEY)
+            from app.services.email_service import email_service
+
+            await email_service.send_password_reset_email(
+                to_email=user.email,
+                reset_token=reset_token,
             )
 
         return "If an account with this email exists, a password reset link has been sent."

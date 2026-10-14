@@ -28,6 +28,9 @@ slowapi>=0.1.9
 # Google Generative AI (Gemini)
 google-generativeai>=0.8.0
 
+# Transactional Email Service (Resend)
+resend>=2.6.0,<3.0.0
+
 # Testing & Linting
 pytest>=8.3.0
 pytest-asyncio>=0.24.0

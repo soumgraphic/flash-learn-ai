@@ -58,6 +58,11 @@ class Settings(BaseSettings):
     RATE_LIMIT_LOGIN: str = "5/minute"
     RATE_LIMIT_AI_GENERATE: str = "10/minute"
 
+    # Transactional Email (Resend)
+    RESEND_API_KEY: str | None = None
+    EMAILS_FROM: str = "FlashLearn AI <onboarding@resend.dev>"
+    FRONTEND_URL: str = "http://localhost:3000"
+
     model_config = SettingsConfigDict(
         env_file=".env", env_file_encoding="utf-8", case_sensitive=True, extra="ignore"
     )
