@@ -90,3 +90,30 @@ def create_refresh_token(subject: str | Any) -> str:
 def decode_refresh_token(token: str) -> dict[str, Any]:
     """Decodes and validates a refresh token, strictly enforcing refresh token type."""
     return jwt.decode(token, get_refresh_secret_key(), algorithms=[settings.ALGORITHM])
+
+
+def create_password_reset_token(email: str, current_hashed_password: str) -> str:
+    """Creates a short-lived (15-min), single-use password reset token.
+
+    Security Design:
+    Incorporating the user's current password hash into the secret key
+    guarantees that once the password changes, any unused reset token
+    immediately becomes invalid (single-use guarantee).
+    """
+    now = datetime.now(timezone.utc)
+    expire = now + timedelta(minutes=15)
+
+    to_encode: dict[str, Any] = {
+        "sub": email.lower(),
+        "iat": int(now.timestamp()),
+        "exp": int(expire.timestamp()),
+        "type": "password_reset",
+    }
+    key = f"{settings.SECRET_KEY}-{current_hashed_password[:16]}"
+    return jwt.encode(to_encode, key, algorithm=settings.ALGORITHM)
+
+
+def decode_password_reset_token(token: str, current_hashed_password: str) -> dict[str, Any]:
+    """Decodes and validates a password reset token against the user's current password state."""
+    key = f"{settings.SECRET_KEY}-{current_hashed_password[:16]}"
+    return jwt.decode(token, key, algorithms=[settings.ALGORITHM])

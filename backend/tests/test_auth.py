@@ -11,6 +11,7 @@ Testing authentication validates the cornerstone of application security:
 
 import pytest
 from httpx import AsyncClient
+from sqlalchemy.ext.asyncio import AsyncSession
 
 pytestmark = pytest.mark.asyncio
 
@@ -160,3 +161,85 @@ async def test_refresh_token_rejects_access_token_or_garbage(client: AsyncClient
         json={"refresh_token": access_token},
     )
     assert bad_res.status_code == 401
+
+
+async def test_forgot_password_blind_response(client: AsyncClient):
+    """Verify forgot-password always returns identical success message (zero user-enumeration)."""
+    # 1. Non-existent email
+    res1 = await client.post(
+        "/api/v1/auth/forgot-password",
+        json={"email": "nonexistent_person_12345@example.com"},
+    )
+    assert res1.status_code == 200
+    assert "If an account with this email exists" in res1.json()["message"]
+
+    # 2. Existing registered email
+    await client.post(
+        "/api/v1/auth/register",
+        json={
+            "email": "forgot_user@example.com",
+            "password": "Password123!",
+            "full_name": "Forgot Tester",
+        },
+    )
+    res2 = await client.post(
+        "/api/v1/auth/forgot-password",
+        json={"email": "forgot_user@example.com"},
+    )
+    assert res2.status_code == 200
+    # Must match the non-existent response exactly
+    assert res2.json()["message"] == res1.json()["message"]
+
+
+async def test_reset_password_flow_and_single_use(
+    client: AsyncClient, db_session: AsyncSession
+):
+    """Verify password reset succeeds and token is strictly single-use."""
+    from sqlalchemy import select
+
+    from app.core.security import create_password_reset_token
+    from app.models import User
+
+    # 1. Register student
+    email = "reset_flow_user@example.com"
+    old_pw = "OldPassword123!"
+    new_pw = "NewPassword456!"
+
+    await client.post(
+        "/api/v1/auth/register",
+        json={"email": email, "password": old_pw, "full_name": "Reset Tester"},
+    )
+
+    # 2. Generate valid reset token using current user state
+    user = (await db_session.execute(select(User).where(User.email == email))).scalar_one()
+    reset_token = create_password_reset_token(user.email, user.hashed_password)
+
+    # 3. Reset password via endpoint
+    reset_res = await client.post(
+        "/api/v1/auth/reset-password",
+        json={"token": reset_token, "new_password": new_pw},
+    )
+    assert reset_res.status_code == 200
+    assert "successfully reset" in reset_res.json()["message"]
+
+    # 4. Old password must be rejected
+    fail_login = await client.post(
+        "/api/v1/auth/login",
+        json={"email": email, "password": old_pw},
+    )
+    assert fail_login.status_code == 401
+
+    # 5. New password must succeed
+    good_login = await client.post(
+        "/api/v1/auth/login",
+        json={"email": email, "password": new_pw},
+    )
+    assert good_login.status_code == 200
+    assert "access_token" in good_login.json()
+
+    # 6. Reusing the SAME token must FAIL (single-use guarantee)
+    reuse_res = await client.post(
+        "/api/v1/auth/reset-password",
+        json={"token": reset_token, "new_password": "EvenNewerPassword789!"},
+    )
+    assert reuse_res.status_code == 401

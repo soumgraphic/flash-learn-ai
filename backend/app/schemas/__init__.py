@@ -39,6 +39,29 @@ class UserLoginRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
+class ForgotPasswordRequest(BaseModel):
+    """Payload to request a password reset link."""
+
+    email: EmailStr
+
+    model_config = ConfigDict(extra="forbid")
+
+
+class ResetPasswordRequest(BaseModel):
+    """Payload to finalize password reset using received token."""
+
+    token: str = Field(min_length=1)
+    new_password: str = Field(min_length=8, max_length=128, description="Must be at least 8 characters")
+
+    model_config = ConfigDict(extra="forbid")
+
+
+class MessageResponse(BaseModel):
+    """Generic message response schema."""
+
+    message: str
+
+
 class TokenResponse(BaseModel):
     """Standard OAuth2 / JWT bearer token response."""
 

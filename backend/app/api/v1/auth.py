@@ -22,7 +22,10 @@ from app.core.database import get_db
 from app.core.limiter import limiter
 from app.models import User
 from app.schemas import (
+    ForgotPasswordRequest,
+    MessageResponse,
     RefreshTokenRequest,
+    ResetPasswordRequest,
     TokenResponse,
     UserLoginRequest,
     UserRegisterRequest,
@@ -89,3 +92,37 @@ async def get_current_user_profile(
 ):
     """Returns the authenticated student profile with XP, level, and study stats."""
     return current_user
+
+
+@router.post(
+    "/forgot-password",
+    response_model=MessageResponse,
+    summary="Request a password reset link (Blind success response)",
+)
+@limiter.limit(settings.RATE_LIMIT_LOGIN)
+async def forgot_password(
+    request: Request,
+    payload: ForgotPasswordRequest,
+    db: Annotated[AsyncSession, Depends(get_db)],
+):
+    """Dispatches a single-use password reset link to the user's email if registered."""
+    msg = await auth_service.request_password_reset(db=db, email=payload.email)
+    return MessageResponse(message=msg)
+
+
+@router.post(
+    "/reset-password",
+    response_model=MessageResponse,
+    summary="Reset password using valid reset token",
+)
+@limiter.limit(settings.RATE_LIMIT_LOGIN)
+async def reset_password(
+    request: Request,
+    payload: ResetPasswordRequest,
+    db: Annotated[AsyncSession, Depends(get_db)],
+):
+    """Validates single-use token and updates user password with Bcrypt hash."""
+    msg = await auth_service.reset_password(
+        db=db, token=payload.token, new_password=payload.new_password
+    )
+    return MessageResponse(message=msg)
