@@ -33,6 +33,18 @@
 
 ---
 
+## 📖 Master Engineering Documentation
+
+All architectural deep-dives, DevOps runbooks, and student masterclasses are organized under [`docs/`](docs/):
+
+- 🚀 **[01 — Cloud Run Deployment](docs/01-CLOUD-RUN-DEPLOYMENT.md)**: Deploying to Google Cloud Run, connecting to Cloud SQL (Firebase Data Connect), and managing Secret Manager.
+- 🗄️ **[02 — Database Migrations (Alembic)](docs/02-DATABASE-MIGRATIONS-ALEMBIC.md)**: Schema version control with Alembic, the zero-downtime "Expand & Contract" pattern, and automated container startup migrations.
+- 🏗️ **[03 — Terraform (IaC) Masterclass](docs/03-TERRAFORM-INFRASTRUCTURE-AS-CODE.md)**: Infrastructure as Code with Terraform, GCS state locking, and cloud provisioning.
+- 🎨 **[04 — UI/UX Design System](docs/04-UI-UX-DESIGN-SYSTEM.md)**: Semantic tokens, typography, and responsive component design.
+- 🗺️ **[05 — Product Roadmap](docs/05-PROJECT-ROADMAP.md)**: Gamification mechanics, milestones, and architectural evolution.
+
+---
+
 ## 🔒 Security by Design (Shift-Left Principles)
 
 FlashLearn AI follows production industry standards:
