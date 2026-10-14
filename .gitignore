@@ -74,3 +74,8 @@ Thumbs.db
 # Docker logs
 *.log
 docker-compose.override.yml
+
+# SQLite & local databases
+*.db
+*.sqlite
+*.sqlite3
